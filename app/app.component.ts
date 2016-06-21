@@ -1,32 +1,32 @@
 import {Component} from "@angular/core";
-
-export class Todo {
-    completed: Boolean;
-    title: string;
-
-    constructor(title: String) {
-        this.completed = false;
-        this.title = title.trim();
-    }
-}
+import {TodoStore, Todo} from "./services/todo";
 
 @Component({
     selector: "my-app",
-    template: `
-    <StackLayout class="main">
-        <StackLayout *ngFor="#todo of todoStore">
-            <TextField [text]="todo.title"></TextField> 
-        </StackLayout>
-    </StackLayout>
-`,
+    templateUrl: 'app.html',
+    styleUrls: ['app-common.css', 'app.css'],
+    providers: [TodoStore]
 })
 export class AppComponent {
-    public todoStore: Array<Todo>;
+    public todoStore: TodoStore;
 
-    constructor() {
-        this.todoStore = [
-            new Todo('Pick Up Eggs'),
-            new Todo('Stalk John Papa')
-        ]
+    constructor(todoStore: TodoStore) {
+        this.todoStore = todoStore;
     }
+
+    public newTodoText: String = '';
+    
+    addTodo() {
+        this.todoStore.add(this.newTodoText);
+        this.newTodoText = '';
+    }
+
+    toggleCompletion(todo: Todo) {
+        todo.completed = !todo.completed;
+    }
+
+    remove(todo: Todo) {
+        this.todoStore.remove(todo);
+    }
+
 }

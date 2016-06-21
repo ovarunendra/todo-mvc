@@ -2,7 +2,7 @@
 npm-debug.log
 
 app/**/*.js
-app/**/*.map
+**/*.map
 !app/shared/everlive.all.min.js
 hooks/
 lib/
